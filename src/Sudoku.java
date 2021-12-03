@@ -9,7 +9,7 @@ public class Sudoku {
 
     // initialize final variables
     private final int SIZE = 3;
-    private final boolean[] WHICH_NUMBERS_APPEAR = new boolean[10];
+    private final boolean[] WHICH_NUMBERS_APPEAR = new boolean[SIZE*SIZE+1];
 
     // instance variables
     private Square3x3[][] sudoku;
@@ -50,7 +50,7 @@ public class Sudoku {
     // [1] - [9] items value with false
     private void initWhichNumbersAppear() {
         WHICH_NUMBERS_APPEAR[0] = true;
-        for (int i = 1; i <= 9; i++) {
+        for (int i = 1; i < WHICH_NUMBERS_APPEAR.length; i++) {
             WHICH_NUMBERS_APPEAR[i] = false;
         }
     }

@@ -10,7 +10,7 @@ public class Square3x3 {
     // initialize final variables
     private final int SIZE = 3;
     private final int DEFAULT_CELL_VALUE = -1;
-    private final boolean[] WHICH_NUMBERS_APPEAR = new boolean[10];
+    private final boolean[] WHICH_NUMBERS_APPEAR = new boolean[SIZE*SIZE+1];
 
     // instance variables
     private int[][] square;
@@ -43,17 +43,21 @@ public class Square3x3 {
     }
 
     /**
-     * Copy constructor for objects of class Square3x3 Constructs a new Square3x3 using another Square3x3
+     * Construct a new Square3x3 using another Square3x3
      *
      * @param other - The Square3x3 from which to construct the new object
      */
     public Square3x3(Square3x3 other) {
-        square = new int[SIZE][SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                this.setXY(i, j, other.getCell(i, j));
+        if (other != null){
+            square = new int[SIZE][SIZE];
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    this.setXY(i, j, other.getCell(i, j));
+                }
             }
         }
+        else
+            this.initSquare(DEFAULT_CELL_VALUE);
     }
 
     // getters & setters
@@ -104,7 +108,7 @@ public class Square3x3 {
     // [1] - [9] items value with false
     private void initWhichNumbersAppear() {
         WHICH_NUMBERS_APPEAR[0] = true;
-        for (int i = 1; i <= 9; i++) {
+        for (int i = 1; i < WHICH_NUMBERS_APPEAR.length; i++) {
             WHICH_NUMBERS_APPEAR[i] = false;
         }
     }
@@ -169,10 +173,13 @@ public class Square3x3 {
      * @param values - boolean array to update correspondingly to cells in row
      */
     public void whosThereRow(int row, boolean[] values) {
-        // go over row's columns
-        for (int i = 0; i < SIZE; i++) {
-            if (square[row][i] > 0 && square[row][i] < 10) // check if cell value is between 1-9
-                values[square[row][i]] = true; // update values array item in the corresponding index to true
+        // check if values is not null and row param is valid index
+        if (values != null && validIndex(row)) {
+            // go over row's columns
+            for (int i = 0; i < SIZE; i++) {
+                if (square[row][i] > 0 && square[row][i] < values.length) // check if cell value is between 1-9
+                    values[square[row][i]] = true; // update values array item in the corresponding index to true
+            }
         }
     }
 
@@ -187,10 +194,13 @@ public class Square3x3 {
      * @param values - boolean array to update correspondingly to cells in row
      */
     public void whosThereCol(int col, boolean[] values) {
-        // go over column's rows
-        for (int i = 0; i < SIZE; i++) {
-            if (square[i][col] > 0 && square[i][col] < 10) // check if cell value is between 1-9
-                values[square[i][col]] = true; // update values array item in the corresponding index to true
+        // check if values is not null and col param is valid index
+        if (values != null && validIndex(col)) {
+            // go over column's rows
+            for (int i = 0; i < SIZE; i++) {
+                if (square[i][col] > 0 && square[i][col] < values.length) // check if cell value is between 1-9
+                    values[square[i][col]] = true; // update values array item in the corresponding index to true
+            }
         }
     }
 }
