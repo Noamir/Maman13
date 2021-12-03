@@ -34,13 +34,16 @@ public class Sudoku {
      * @param array - Square3x3 array to copy the values from
      */
     public Sudoku(Square3x3[][] array) {
-        sudoku = new Square3x3[SIZE][SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                sudoku[i][j] = new Square3x3(array[i][j]);
+        this(); // initialize sudoku cells value to -1
+
+        if (array != null) { // only if array parameter is not null, copy its values to the sudoku
+            sudoku = new Square3x3[SIZE][SIZE];
+            for (int i = 0; i < SIZE; i++) {
+                for (int j = 0; j < SIZE; j++) {
+                    sudoku[i][j] = new Square3x3(array[i][j]);
+                }
             }
         }
-
     }
 
     // methods
