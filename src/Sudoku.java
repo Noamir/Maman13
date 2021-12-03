@@ -1,5 +1,5 @@
 /**
- * Maman 13 - Class Sudoku.
+ * Maman 13 - Class Sudoku
  *
  * @author Noa Amir
  * @version 2022a
@@ -17,7 +17,7 @@ public class Sudoku {
     // constructors
 
     /**
-     * Construct a new Sudoku. Initialize all Square3x3 cells value to -1.
+     * Construct a new Sudoku. Initialize all Square3x3 cells value to -1
      */
     public Sudoku() {
         sudoku = new Square3x3[SIZE][SIZE];
@@ -29,9 +29,9 @@ public class Sudoku {
     }
 
     /**
-     * Construct a new Sudoku. Copy values from a given Square3x3 array to sudoku cells.
+     * Construct a new Sudoku. Copy values from a given Square3x3 array to sudoku cells
      *
-     * @param array - Square3x3 array to copy the values from.
+     * @param array - Square3x3 array to copy the values from
      */
     public Sudoku(Square3x3[][] array) {
         sudoku = new Square3x3[SIZE][SIZE];

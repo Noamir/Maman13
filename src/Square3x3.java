@@ -1,5 +1,5 @@
 /**
- * Maman 13 - Class Square3x3.
+ * Maman 13 - Class Square3x3
  *
  * @author Noa Amir
  * @version 2022a
@@ -18,16 +18,16 @@ public class Square3x3 {
     // constructors
 
     /**
-     * Construct a new Square3x3. Initialize all cells value to -1.
+     * Construct a new Square3x3. Initialize all cells value to -1
      */
     public Square3x3() {
         this.initSquare(DEFAULT_CELL_VALUE);
     }
 
     /**
-     * Construct a new Square3x3. Copy values from a given array to Square3x3 cells.
+     * Construct a new Square3x3. Copy values from a given array to Square3x3 cells
      *
-     * @param array - array to copy the values from.
+     * @param array - array to copy the values from
      */
     Square3x3(int[][] array) {
         this.initSquare(DEFAULT_CELL_VALUE);
@@ -59,7 +59,7 @@ public class Square3x3 {
     // getters & setters
 
     /**
-     * Returns the value in [row][col] cell of the Square3x3 object.
+     * Returns the value in [row][col] cell of the Square3x3 object
      *
      * @return value in [row][col] cell
      */
@@ -70,7 +70,7 @@ public class Square3x3 {
     }
 
     /**
-     * Sets the value in [row][col] cell of the Square3x3 object.
+     * Sets the value in [row][col] cell of the Square3x3 object
      *
      * @param row   - the row of the Square3x3
      * @param col   - the col of the Square3x3
