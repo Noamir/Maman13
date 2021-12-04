@@ -10,7 +10,11 @@ public class Square3x3 {
     // initialize final variables
     private final int SIZE = 3;
     private final int DEFAULT_CELL_VALUE = -1;
-    private final boolean[] WHICH_NUMBERS_APPEAR = new boolean[SIZE*SIZE+1];
+    private final int INVALID_INDEX_VALUE = -1;
+
+    // number of cells + 1 in each row, column, and square of the sudoku.
+    // +1 is added to represent an array that can support v[1] to v[9] for numbers 1-9. (index 0 is not in use)
+    private final int SUDOKU_ARRAY_LENGTH = 10;
 
     // instance variables
     private int[][] square;
@@ -18,7 +22,7 @@ public class Square3x3 {
     // constructors
 
     /**
-     * Construct a new Square3x3. Initialize all cells value to -1
+     * Construct a new Square3x3. Initialize all cells value to DEFAULT_CELL_VALUE
      */
     public Square3x3() {
         this.initSquare(DEFAULT_CELL_VALUE);
@@ -64,13 +68,14 @@ public class Square3x3 {
 
     /**
      * Returns the value in [row][col] cell of the Square3x3 object
+     * If row \ column are invalid (out of range) - return INVALID_INDEX_VALUE
      *
      * @return value in [row][col] cell
      */
     public int getCell(int row, int col) {
         if (validIndex(row) && validIndex(col))
             return square[row][col];
-        return -1;
+        return INVALID_INDEX_VALUE;
     }
 
     /**
@@ -103,16 +108,6 @@ public class Square3x3 {
         }
     }
 
-    // Initialize WHICH_NUMBERS_APPEAR boolean array
-    // [0] item value with true
-    // [1] - [9] items value with false
-    private void initWhichNumbersAppear() {
-        WHICH_NUMBERS_APPEAR[0] = true;
-        for (int i = 1; i < WHICH_NUMBERS_APPEAR.length; i++) {
-            WHICH_NUMBERS_APPEAR[i] = false;
-        }
-    }
-
     /**
      * Returns a string representation of the Square3x3 object
      *
@@ -134,37 +129,31 @@ public class Square3x3 {
         return msg;
     }
 
-    // print a row in square
-    //TODO: delete - only for tests
-    public void printRow(int row) {
-        for (int col = 0; col < SIZE; col++)
-            System.out.print(getCell(row, col) + "\t");
-    }
-
     /**
      * Returns true if all numbers 1-9 exists in square
      *
      * @return true if all numbers 1-9 exists in square
      */
     public boolean allThere() {
-        initWhichNumbersAppear(); // init WHICH_NUMBERS_APPEAR boolean array
+        boolean[] whichNumbersExist = new boolean[SUDOKU_ARRAY_LENGTH];
 
         // go over all square rows
         for (int i = 0; i < SIZE; i++) {
-            this.whosThereRow(i, WHICH_NUMBERS_APPEAR); // check whosThereRow for each row
+            this.whosThereRow(i, whichNumbersExist); // check whosThereRow for each row
         }
 
-        // go over WHICH_NUMBERS_APPEAR boolean array
-        for (int j = 0; j < WHICH_NUMBERS_APPEAR.length; j++) {
-            if (!WHICH_NUMBERS_APPEAR[j])
+        // go over whichNumbersExist boolean array
+        for (int j = 1; j < whichNumbersExist.length; j++) { // we don't care about index 0
+            if (!whichNumbersExist[j])
                 return false; // a number between 1-9 is not in square
         }
         return true; // numbers 1-9 are all in square
     }
 
     /**
-     * Check if square row contains cells with values between 1-9
-     * If yes - update values boolean array item in the corresponding index to true
+     * Update values boolean array items
+     * If square row contains cells with values between 1-9,
+     * Update values boolean array item in the corresponding index to true
      * For example:
      * Row 1 cells are: 10  7   1
      * whosThereRow will update values[7] and values[1] to true
@@ -184,8 +173,9 @@ public class Square3x3 {
     }
 
     /**
-     * Check if square column contains cells with values between 1-9
-     * If yes - update values boolean array item in the corresponding index to true
+     * Update values boolean array items
+     * If square column contains cells with values between 1-9,
+     * Update values boolean array item in the corresponding index to true
      * For example:
      * Column 1 cells are: 10  7   1
      * whosThereCol will update values[7] and values[1] to true

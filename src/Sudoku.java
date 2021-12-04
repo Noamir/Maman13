@@ -9,7 +9,11 @@ public class Sudoku {
 
     // initialize final variables
     private final int SIZE = 3;
-    private final boolean[] WHICH_NUMBERS_APPEAR = new boolean[SIZE*SIZE+1];
+
+    // number of cells + 1 in each row, column, and square of the sudoku.
+    // +1 is added to represent an array that can support v[1] to v[9] for numbers 1-9. (index 0 is not in use)
+    private final int SUDOKU_ARRAY_LENGTH = 10;
+
 
     // instance variables
     private Square3x3[][] sudoku;
@@ -48,39 +52,13 @@ public class Sudoku {
 
     // methods
 
-    // Initialize WHICH_NUMBERS_APPEAR boolean array
-    // [0] item value with true
-    // [1] - [9] items value with false
-    private void initWhichNumbersAppear() {
-        WHICH_NUMBERS_APPEAR[0] = true;
-        for (int i = 1; i < WHICH_NUMBERS_APPEAR.length; i++) {
-            WHICH_NUMBERS_APPEAR[i] = false;
-        }
-    }
-
-    // Check if WHICH_NUMBERS_APPEAR boolean array has only true values
-    private boolean validateWhichNumbersAppear() {
-        for (int i = 0; i < WHICH_NUMBERS_APPEAR.length; i++) {
-            if (!WHICH_NUMBERS_APPEAR[i])
+    // Check if values boolean array has only true values
+    private boolean doAllNumbersExist(boolean[] values) {
+        for (int i = 1; i < values.length; i++) {
+            if (!values[i])
                 return false;
         }
         return true;
-    }
-
-    // print sudoku grid
-    // TODO: Delete! Only for tests prints
-    public void printGrid() {
-        for (int squareLine = 0; squareLine < SIZE; squareLine++) {
-            for (int row = 0; row < SIZE; row++) {
-                sudoku[squareLine][0].printRow(row);
-                System.out.print("\t");
-                sudoku[squareLine][1].printRow(row);
-                System.out.print("\t");
-                sudoku[squareLine][2].printRow(row);
-                System.out.print("\n");
-            }
-            System.out.print("\n");
-        }
     }
 
     /**
@@ -95,13 +73,13 @@ public class Sudoku {
         for (int squareRow = 0; squareRow < SIZE; squareRow++) {
             // go over rows inside Square3x3 objects
             for (int row = 0; row < SIZE; row++) {
-                initWhichNumbersAppear(); // for each row, initialize WHICH_NUMBERS_APPEAR boolean array
+                boolean[] whichNumbersExist = new boolean[SUDOKU_ARRAY_LENGTH];
                 // go over columns of Square3x3 objects
                 for (int squareCol = 0; squareCol < SIZE; squareCol++) {
                     // for each sudoku array item (Square 3x3 object), check whosThereRow for row
-                    sudoku[squareRow][squareCol].whosThereRow(row, WHICH_NUMBERS_APPEAR);
+                    sudoku[squareRow][squareCol].whosThereRow(row, whichNumbersExist);
                 }
-                if (!validateWhichNumbersAppear())
+                if (!doAllNumbersExist(whichNumbersExist))
                     return false; // sudoku row is invalid
             }
         }
@@ -120,13 +98,13 @@ public class Sudoku {
         for (int squareCol = 0; squareCol < SIZE; squareCol++) {
             // go over columns inside Square3x3 objects
             for (int col = 0; col < SIZE; col++) {
-                initWhichNumbersAppear(); // for each column, initialize WHICH_NUMBERS_APPEAR boolean array
+                boolean[] whichNumbersExist = new boolean[SUDOKU_ARRAY_LENGTH];
                 // go over rows of Square3x3 objects
                 for (int squareRow = 0; squareRow < SIZE; squareRow++) {
                     // for each sudoku array item (Square 3x3 object), check whosThereCol for col
-                    sudoku[squareRow][squareCol].whosThereCol(col, WHICH_NUMBERS_APPEAR);
+                    sudoku[squareRow][squareCol].whosThereCol(col, whichNumbersExist);
                 }
-                if (!validateWhichNumbersAppear())
+                if (!doAllNumbersExist(whichNumbersExist))
                     return false; // sudoku column is invalid
             }
         }

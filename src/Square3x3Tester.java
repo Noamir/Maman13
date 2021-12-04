@@ -76,8 +76,12 @@ public class Square3x3Tester {
         int[][] array9 = {{1,2,2,8}, {4,3,6,7}, {7,5,9}};
         Square3x3 square9 = new Square3x3(array9);
         System.out.println(square9.allThere());
-        square9.printRow(0);
+        //square9.printRow(0);
 
 
+        boolean[] whichNumberAppear = new boolean[10];
+        for(int i=0; i<10; i++){
+            System.out.print(whichNumberAppear[i] + ", ");
+        }
     }
 }
