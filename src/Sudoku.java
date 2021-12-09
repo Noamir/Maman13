@@ -8,7 +8,7 @@
 public class Sudoku {
 
     // initialize final variables
-    private final int SIZE = 3;
+    private final int SIZE = 3; // sudoku will have SIZE*SIZE Square3x3 cells
 
     // instance variables
     private Square3x3[][] sudoku;
@@ -16,7 +16,7 @@ public class Sudoku {
     // constructors
 
     /**
-     * Construct a new Sudoku. Initialize all Square3x3 cells value to -1
+     * Construct a new Sudoku. Initialize all cells value to -1
      */
     public Sudoku() {
         sudoku = new Square3x3[SIZE][SIZE];
@@ -33,14 +33,10 @@ public class Sudoku {
      * @param array - Square3x3 array to copy the values from
      */
     public Sudoku(Square3x3[][] array) {
-        this(); // initialize sudoku cells value to -1
-
-        if (array != null) { // only if array parameter is not null, copy its values to the sudoku
-            //sudoku = new Square3x3[SIZE][SIZE];
-            for (int i = 0; i < SIZE; i++) {
-                for (int j = 0; j < SIZE; j++) {
-                    sudoku[i][j] = new Square3x3(array[i][j]);
-                }
+        sudoku = new Square3x3[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                sudoku[i][j] = new Square3x3(array[i][j]);
             }
         }
     }

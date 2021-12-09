@@ -8,9 +8,9 @@
 public class Square3x3 {
 
     // initialize final variables
-    private final int SIZE = 3;
-    private final int DEFAULT_CELL_VALUE = -1;
-    private final int INVALID_INDEX_VALUE = -1;
+    private final int SIZE                = 3;  // square will have SIZE*SIZE int cells
+    private final int DEFAULT_CELL_VALUE  = -1; // default value to initialize all square cells with
+    private final int INVALID_INDEX_VALUE = -1; // default value to return when trying to get value from invalid index - out of square range
 
 
     // instance variables
@@ -32,7 +32,7 @@ public class Square3x3 {
      * @param array - array to copy the values from
      */
     Square3x3(int[][] array) {
-        this.initSquare(DEFAULT_CELL_VALUE);
+        this(); // Construct a new Square3x3 & Initialize all cells value to DEFAULT_CELL_VALUE
 
         int rows = Math.min(array.length, SIZE);
 
@@ -50,16 +50,12 @@ public class Square3x3 {
      * @param other - The Square3x3 from which to construct the new object
      */
     public Square3x3(Square3x3 other) {
-        if (other != null){
-            square = new int[SIZE][SIZE];
-            for (int i = 0; i < SIZE; i++) {
-                for (int j = 0; j < SIZE; j++) {
-                    this.setXY(i, j, other.getCell(i, j));
-                }
+        square = new int[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                this.setXY(i, j, other.getCell(i, j));
             }
         }
-        else
-            this.initSquare(DEFAULT_CELL_VALUE);
     }
 
     // getters & setters
