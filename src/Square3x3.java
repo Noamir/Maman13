@@ -12,9 +12,6 @@ public class Square3x3 {
     private final int DEFAULT_CELL_VALUE = -1;
     private final int INVALID_INDEX_VALUE = -1;
 
-    // number of cells + 1 in each row, column, and square of the sudoku.
-    // +1 is added to represent an array that can support v[1] to v[9] for numbers 1-9. (index 0 is not in use)
-    private final int SUDOKU_ARRAY_LENGTH = 10;
 
     // instance variables
     private int[][] square;
@@ -30,6 +27,7 @@ public class Square3x3 {
 
     /**
      * Construct a new Square3x3. Copy values from a given array to Square3x3 cells
+     * If the given array has fewer cells than square, fill the missing cells values with DEFAULT_CELL_VALUE
      *
      * @param array - array to copy the values from
      */
@@ -135,7 +133,12 @@ public class Square3x3 {
      * @return true if all numbers 1-9 exists in square
      */
     public boolean allThere() {
-        boolean[] whichNumbersExist = new boolean[SUDOKU_ARRAY_LENGTH];
+        // whichNumbersExist array length is the number of cells +1 in square.
+        // +1 is added to represent an array that can support v[1] to v[SIZE*SIZE].
+        // For example, 3x3 square. Square has 9 cells which should contain 1-9 numbers.
+        // Indexes 1-9  of the array represent numbers 1-9. Index 0 is not in use.
+        // Array length is 10 (number of cells (9) +1)
+        boolean[] whichNumbersExist = new boolean[SIZE*SIZE+1];
 
         // go over all square rows
         for (int i = 0; i < SIZE; i++) {

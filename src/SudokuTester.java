@@ -2,7 +2,7 @@ public class SudokuTester {
 
     public static void main(String[] args){
         Sudoku s1 = new Sudoku();
-        s1.printGrid(); // expected all -1
+        //s1.printGrid(); // expected all -1
         System.out.println(s1.isValid()); // expected false
 
         int[][] array1 = {{1,2,3}, {4,5,6}, {7,8,9}};
@@ -35,7 +35,7 @@ public class SudokuTester {
         Square3x3[][] array = {{square1, square2, square3}, {square4, square5, square6}, {square7, square8, square9}};
         Sudoku s2 = new Sudoku(array);
 
-        s2.printGrid();
+        //s2.printGrid();
         System.out.println(s2.isValid());
 
     }

@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Maman 13 Tester - Sudoku
+ * Amit Yanay
+ */
 public class AmitSudokuTester {
 
     // Don't touch these, it's for colour purposes in Intellij
@@ -11,51 +15,237 @@ public class AmitSudokuTester {
     public static final String ANSI_YELLOW = "";
     // Don't touch these, it's for colour purposes in Intellij
 
-    // GRID GENERATOR "BORROWED" FROM https://github.com/mfgravesjr/finished-projects/blob/master/SudokuGridGenerator/SudokuGridGenerator.java
-    public static void main(String[] args) {
-        Square3x3[][] square3x3Arr = new Square3x3[3][3];
-        Sudoku s1 = new Sudoku(); // Just so it'll run compilation (new Square3x3 for each one I can't really check this)
-        fillSudoku(square3x3Arr);
 
-        fillSudoku(square3x3Arr);
-        int passed = 0;
-        System.out.println("This checks every cell when you change it's value and make it invalid ( good to see if every cell makes" +
-                "an error in the code ):\n");
-        for (int sRow = 0; sRow < 3; sRow++) {
-            for (int sCol = 0; sCol < 3; sCol++) {
-                for (int bRow = 0; bRow < 3; bRow++) {
-                    for (int bCol = 0; bCol < 3; bCol++) {
-                        int val = square3x3Arr[sRow][sCol].getCell(bRow, bCol);
-                        square3x3Arr[sRow][sCol].setXY(bRow, bCol, ThreadLocalRandom.current().nextInt(10, 100));
-                        Sudoku s2 = new Sudoku(square3x3Arr);
-                        System.out.print("Checking isValid in board " + sRow + "," + sCol + " || at Cell " + bRow + "," + bCol + ": ");
-                        if (!s2.isValid()) {
-                            System.out.println(ANSI_GREEN + "Returned OK" + ANSI_RESET);
-                            passed++;
-                        }
-                        else System.out.println(ANSI_RED + "Returned ERROR" + ANSI_RESET);
-                        square3x3Arr[sRow][sCol].setXY(bRow, bCol, val);
-                    }
-                }
+    public static void main(String[] args) {
+
+        // DECLARATIONS
+        Square3x3[][] validSquare = new Square3x3[3][3];
+        fillSudoku(validSquare);
+        Sudoku validSudoku = new Sudoku(validSquare);
+
+        // Start of checking on known sudoku
+        Square3x3[][] sameInX = new Square3x3[3][3];
+        generatedValid(sameInX);
+        sameInX[0][0].setXY(1,1, 8);
+        Sudoku sameInBox = new Sudoku(sameInX);
+
+        generatedValid(sameInX);
+        sameInX[0][0].setXY(0,1,8);
+        sameInX[0][0].setXY(2,1,3);
+        Sudoku sameInRow = new Sudoku(sameInX);
+
+        generatedValid(sameInX);
+        sameInX[1][0].setXY(0,0,3);
+        sameInX[1][0].setXY(0,2,7);
+        Sudoku sameInCol = new Sudoku(sameInX);
+        // End of checking on known sudoku
+
+        // Start of checking on unknown sudoku
+        Object[] obj = generateSameIn(1);
+        Sudoku box1 = (Sudoku) obj[0];
+        String sbox1 = (String) obj[1];
+
+        obj = generateSameIn(1);
+        Sudoku box2 = (Sudoku) obj[0];
+        String sbox2 = (String) obj[1];
+
+        obj = generateSameIn(1);
+        Sudoku box3 = (Sudoku) obj[0];
+        String sbox3 = (String) obj[1];
+
+        obj = generateSameIn(2);
+        Sudoku row1 = (Sudoku) obj[0];
+        String srow1 = (String) obj[1];
+
+        obj = generateSameIn(2);
+        Sudoku row2 = (Sudoku) obj[0];
+        String srow2 = (String) obj[1];
+
+        obj = generateSameIn(2);
+        Sudoku row3 = (Sudoku) obj[0];
+        String srow3 = (String) obj[1];
+
+        obj = generateSameIn(3);
+        Sudoku col1 = (Sudoku) obj[0];
+        String scol1 = (String) obj[1];
+
+        obj = generateSameIn(3);
+        Sudoku col2 = (Sudoku) obj[0];
+        String scol2 = (String) obj[1];
+
+        obj = generateSameIn(3);
+        Sudoku col3 = (Sudoku) obj[0];
+        String scol3 = (String) obj[1];
+        // End of checking on unknown sudoku
+
+        Square3x3[][] aliasing = new Square3x3[3][3];
+        fillSudoku(aliasing);
+        Sudoku aliasingS = new Sudoku(aliasing);
+        aliasing[0][0].setXY(0,0,50);
+
+        // DECLARATIONS
+
+        // ACTIONS
+
+        boolean validSudoku1 = validSudoku.isValid();
+
+        boolean sameInKnownBox = sameInBox.isValid();
+        boolean sameInKnownRow = sameInRow.isValid();
+        boolean sameInKnownCol = sameInCol.isValid();
+
+        boolean bBox1 = box1.isValid();
+        boolean bBox2 = box2.isValid();
+        boolean bBox3 = box3.isValid();
+
+        boolean bRow1 = row1.isValid();
+        boolean bRow2 = row2.isValid();
+        boolean bRow3 = row3.isValid();
+
+        boolean bCol1 = col1.isValid();
+        boolean bCol2 = col2.isValid();
+        boolean bCol3 = col3.isValid();
+
+        boolean aliasingValid = aliasingS.isValid();
+
+        // ACTIONS
+
+        // ASSERTIONS
+
+        print("Checking on a normal valid sudoku: ");
+        if (validSudoku1) pok();
+        else perror(true, false);
+
+        print("Checking conditions for same In box: ");
+        if (!sameInKnownBox) pok();
+        else perror(false, true);
+
+        print("Checking condition for same In Row: ");
+        if (!sameInKnownRow) pok();
+        else perror(false, true);
+
+        print("Checking condition for same In Col: ");
+        if (!sameInKnownCol) pok();
+        else perror(false, true);
+
+        System.out.println(ANSI_YELLOW + "\nNOTE: These checks now receive complete random sudoku and set these conditions:\n" +
+                " - Takes random square from the sudoku board\n" +
+                " - For box: swaps between two random values in the same square\n" +
+                " - For Row: Takes two random cells and swaps them so it'll activate sudoku with only disallowed rows\n" +
+                " - For Col: Does same thing as the row\n");
+        print("Randomized same In Box1 "+sbox1+": ");
+        if (!bBox1) pok();
+        else perror(false, true);
+
+        print("Randomized same In Box2 "+sbox2+": ");
+        if (!bBox2) pok();
+        else perror(false, true);
+
+        print("Randomized same In Box3 "+sbox3+": ");
+        if (!bBox3) pok();
+        else perror(false, true);
+
+        print("Randomized same In Row1 "+srow1+": ");
+        if (!bRow1) pok();
+        else perror(false, true);
+
+        print("Randomized same In Row2 "+srow2+": ");
+        if (!bRow2) pok();
+        else perror(false, true);
+
+        print("Randomized same In Row3 "+srow3+": ");
+        if (!bRow3) pok();
+        else perror(false, true);
+
+        print("Randomized same In Col1 "+scol1+": ");
+        if (!bCol1) pok();
+        else perror(false, true);
+
+        print("Randomized same In Col2 "+scol2+": ");
+        if (!bCol2) pok();
+        else perror(false, true);
+
+        print("Randomized same In Col3 "+scol3+": ");
+        if (!bCol3) pok();
+        else perror(false, true);
+
+        System.out.println();
+        print("Aliasing on second constructor: ");
+        if (aliasingValid) pok();
+        else perror(false, true + " (NOTE: Prevent aliasing by inserting every object as new Square3x3())");
+        // ASSERTIONS
+    }
+
+    private static void print(String s) {
+        System.out.print(ANSI_RESET + s);
+    }
+
+    private static void pok() {
+        System.out.println(ANSI_GREEN + "Returned OK" + ANSI_RESET);
+    }
+
+    private static void perror(Object expected, Object actual) {
+        System.out.println(ANSI_RED + "Returned ERROR - Expected: " + expected + " | actual: " + actual);
+    }
+
+    private static Object[] generateSameIn(int type) {
+        // type - 1: sameInBox
+        // type - 2: sameInRow
+        // type - 3: sameInCol
+        int genRow = ThreadLocalRandom.current().nextInt(0, 3);
+        int genCol = ThreadLocalRandom.current().nextInt(0, 3);
+        String sen = String.format("(box: %s,%s ", genRow, genCol);
+        Square3x3[][] sameInX = new Square3x3[3][3];
+        fillSudoku(sameInX);
+        if (type == 1) { // same In Box
+            int rndSwapR = ThreadLocalRandom.current().nextInt(1, 9);
+            int rndSwapC = rndSwapR;
+            while (rndSwapC == rndSwapR) {
+                rndSwapC = ThreadLocalRandom.current().nextInt(2, 9);
+            }
+            int sameNum = sameInX[genRow][genCol].getCell(rndSwapR,rndSwapC);
+            sameInX[genRow][genCol].setXY(0,1,sameNum);
+            sen += String.format("| cell: %s,%s)", rndSwapR, rndSwapC);
+        } else if (type == 2) { // same In Row
+            int genColCell = ThreadLocalRandom.current().nextInt(0, 3);
+            int cell01 = sameInX[genRow][genCol].getCell(0,genColCell);
+            int cell21 = sameInX[genRow][genCol].getCell(2,genColCell);
+            sameInX[genRow][genCol].setXY(0,genColCell,cell21);
+            sameInX[genRow][genCol].setXY(2,genColCell,cell01);
+            sen += String.format("| between cell0%s and cell2%s)", cell01, cell21);
+        } else if (type == 3) { // same In Column
+            int genRowCell = ThreadLocalRandom.current().nextInt(0, 3);
+            int cell00 = sameInX[genRow][genCol].getCell(genRowCell,0);
+            int cell02 = sameInX[genRow][genCol].getCell(genRowCell,2);
+            sameInX[genRow][genCol].setXY(genRowCell,0,cell02);
+            sameInX[genRow][genCol].setXY(genRowCell,2,cell00);
+            sen += String.format("| between cell%s0 and cell%s2)", cell00, cell02);
+        }
+        // Otherwise, it'll return valid state of a sudoku ( valid complete Sudoku )
+        return new Object[]{new Sudoku(sameInX), sen};
+    }
+
+    private static void generatedValid(Square3x3[][] s) {
+        s[0][0] = eVals(new int[]{6,3,4,1,7,5,2,8,9});
+        s[0][1] = eVals(new int[]{7,5,9,8,3,2,6,1,4});
+        s[0][2] = eVals(new int[]{2,1,8,6,4,9,5,7,3});
+        s[1][0] = eVals(new int[]{7,5,3,9,6,1,8,4,2});
+        s[1][1] = eVals(new int[]{9,4,8,5,2,7,3,6,1});
+        s[1][2] = eVals(new int[]{1,2,6,3,8,4,7,9,5});
+        s[2][0] = eVals(new int[]{5,1,8,4,9,6,3,2,7});
+        s[2][1] = eVals(new int[]{2,9,6,1,7,3,4,8,5});
+        s[2][2] = eVals(new int[]{4,3,7,8,5,2,9,6,1});
+    }
+
+    private static Square3x3 eVals(int[] enter) {
+        int[][] arr = new int[3][3];
+        int c = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                arr[i][j] = enter[c];
+                c++;
             }
         }
-        System.out.println("===================Tests Passed: " + passed + "/81===================");
-
-        System.out.print(ANSI_RESET + "Checking two numbers in the same row: ");
-        fillSudoku(square3x3Arr);
-        square3x3Arr[1][0].setXY(0,0, square3x3Arr[0][0].getCell(0,0));
-        Sudoku s4 = new Sudoku(square3x3Arr);
-        if (!s4.isValid()) System.out.println(ANSI_GREEN + "Returned OK");
-        else System.out.println(ANSI_RED + "Returned ERROR - Check for validation in the same row");
-
-        System.out.print(ANSI_RESET + "Checking two numbers in the same column: ");
-        fillSudoku(square3x3Arr);
-        square3x3Arr[0][1].setXY(0, 0, square3x3Arr[1][1].getCell(0,0));
-        Sudoku s5 = new Sudoku(square3x3Arr);
-        if (!s5.isValid()) System.out.println(ANSI_GREEN + "Returned OK");
-        else System.out.println(ANSI_RED + "Returned ERROR - Check for validation in the same column");
-        System.out.println(ANSI_YELLOW + "NOTE: I can't really check any of your code since there is no function that allows me to see the sudoku itself");
-
+        return new Square3x3(arr);
     }
 
     private static void fillSudoku(Square3x3[][] s) {
@@ -305,5 +495,3 @@ public class AmitSudokuTester {
         return true;
     }
 }
-
-

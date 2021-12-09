@@ -10,11 +10,6 @@ public class Sudoku {
     // initialize final variables
     private final int SIZE = 3;
 
-    // number of cells + 1 in each row, column, and square of the sudoku.
-    // +1 is added to represent an array that can support v[1] to v[9] for numbers 1-9. (index 0 is not in use)
-    private final int SUDOKU_ARRAY_LENGTH = 10;
-
-
     // instance variables
     private Square3x3[][] sudoku;
 
@@ -41,7 +36,7 @@ public class Sudoku {
         this(); // initialize sudoku cells value to -1
 
         if (array != null) { // only if array parameter is not null, copy its values to the sudoku
-            sudoku = new Square3x3[SIZE][SIZE];
+            //sudoku = new Square3x3[SIZE][SIZE];
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
                     sudoku[i][j] = new Square3x3(array[i][j]);
@@ -73,7 +68,12 @@ public class Sudoku {
         for (int squareRow = 0; squareRow < SIZE; squareRow++) {
             // go over rows inside Square3x3 objects
             for (int row = 0; row < SIZE; row++) {
-                boolean[] whichNumbersExist = new boolean[SUDOKU_ARRAY_LENGTH];
+                // whichNumbersExist array length is the number of cells + 1 in each row.
+                // +1 is added to represent an array that can support v[1] to v[SIZE*SIZE].
+                // For example, sudoku with 9 3x3 squares. Each row has 9 cells which should contain 1-9 numbers.
+                // Indexes 1-9  in the array represent numbers 1-9. Index 0 is not in use.
+                // Array length is 10 (number of cells (9) +1)
+                boolean[] whichNumbersExist = new boolean[SIZE * SIZE + 1];
                 // go over columns of Square3x3 objects
                 for (int squareCol = 0; squareCol < SIZE; squareCol++) {
                     // for each sudoku array item (Square 3x3 object), check whosThereRow for row
@@ -98,7 +98,12 @@ public class Sudoku {
         for (int squareCol = 0; squareCol < SIZE; squareCol++) {
             // go over columns inside Square3x3 objects
             for (int col = 0; col < SIZE; col++) {
-                boolean[] whichNumbersExist = new boolean[SUDOKU_ARRAY_LENGTH];
+                // whichNumbersExist array length is the number of cells + 1 in each column.
+                // +1 is added to represent an array that can support v[1] to v[SIZE*SIZE].
+                // For example, sudoku with 9 3x3 squares. Each column has 9 cells which should contain 1-9 numbers.
+                // Indexes 1-9  in the array represent numbers 1-9. Index 0 is not in use.
+                // Array length is 10 (number of cells (9) +1)
+                boolean[] whichNumbersExist = new boolean[SIZE * SIZE + 1];
                 // go over rows of Square3x3 objects
                 for (int squareRow = 0; squareRow < SIZE; squareRow++) {
                     // for each sudoku array item (Square 3x3 object), check whosThereCol for col
@@ -141,8 +146,7 @@ public class Sudoku {
      *
      * @return true if the sudoku is valid
      */
-    public Boolean isValid() {
+    public boolean isValid() {
         return isValidRows() && isValidCols() && isValidSquares();
     }
-
 }
