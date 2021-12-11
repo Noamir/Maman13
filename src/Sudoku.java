@@ -8,9 +8,8 @@
 public class Sudoku {
 
     // initialize final variables
-    private final int SIZE             = 3; // sudoku will have SIZE*SIZE Square3x3 cells
+    private final int SIZE = 3; // sudoku will have SIZE*SIZE Square3x3 cells
     private final int SUDOKU_FIRST_NUM = 1; // first number to check if exists in row, column, square of the sudoku
-
 
     // instance variables
     private Square3x3[][] sudoku;
