@@ -53,7 +53,7 @@ public class Square3x3 {
         square = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                this.setXY(i, j, other.getCell(i, j));
+                square[i][j] = other.square[i][j];
             }
         }
     }
