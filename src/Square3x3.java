@@ -10,7 +10,8 @@ public class Square3x3 {
     // initialize final variables
     private final int SIZE                = 3;  // square will have SIZE*SIZE int cells
     private final int DEFAULT_CELL_VALUE  = -1; // default value to initialize all square cells with
-    private final int INVALID_INDEX_VALUE = -1; // default value to return when trying to get value from invalid index - out of square range
+    private final int INVALID_INDEX_VALUE = -1; // default value to return when trying to get a value from invalid square index - out of square range
+    private final int SQUARE_FIRST_NUM    = 1;  // first number to check if exists in each square
 
 
     // instance variables
@@ -142,7 +143,7 @@ public class Square3x3 {
         }
 
         // go over whichNumbersExist boolean array
-        for (int j = 1; j < whichNumbersExist.length; j++) { // we don't care about index 0
+        for (int j = SQUARE_FIRST_NUM; j < whichNumbersExist.length; j++) {
             if (!whichNumbersExist[j])
                 return false; // a number between 1-9 is not in square
         }
